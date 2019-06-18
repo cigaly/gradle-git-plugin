@@ -12,14 +12,19 @@ class GitCloneTaskTest {
     @Test
     void testClone() {
         Project project = ProjectBuilder.builder().build()
-        def task = project.task('gitClone', type: GitCloneTask)
-        assertTrue(task instanceof GitCloneTask)
+        project.pluginManager.apply 'net.biberius.gradle-git-plugin'
+
         def tmpDir = new File(project.buildDir, 'tmp')
         tmpDir.mkdirs()
         def directory = new File(tmpDir, 'test-clone')
-        def deleteDir = directory.deleteDir()
-        task.directory = directory
-        task.uri = 'git@github.com:cigaly/gradle-git-plugin.git'
+        project.extensions.git.directory = directory
+
+        directory.deleteDir()
+
+        project.extensions.git.uri = 'git@github.com:cigaly/gradle-git-plugin.git'
+
+        def task = project.tasks.gitClone
+        assertTrue(task instanceof GitCloneTask)
         task.gitClone()
 
     }
