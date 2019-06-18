@@ -1,0 +1,27 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'maven'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+group = 'net.biberius.gradle'
+version = '1.0-SNAPSHOT'
+
+dependencies {
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.4.0.201906121030-r'
+    testCompile 'junit:junit:4.12'
+}
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'net.biberius.gradle-git-plugin'
+            implementationClass = 'net.biberius.gradle.plugin.git.GitPlugin'
+        }
+    }
+}
